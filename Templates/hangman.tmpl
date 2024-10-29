@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hangman Game</title>
+</head>
+<body>
+    <h1>Jeu du Pendu</h1>
+    <h2>{{.WordDisplay}}</h2>
+    <p>Tentatives restantes : {{.AttemptsLeft}}</p>
+    <form action="/hangman" method="POST">
+        <label for="letter">Entrez une lettre :</label>
+        <input type="text" name="letter" maxlength="1" required>
+        <button type="submit">Vérifier</button>
+    </form>
+</body>
+</html>
