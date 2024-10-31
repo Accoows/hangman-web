@@ -13,6 +13,8 @@ var word string
 var revealed []bool
 var attemptsLeft int
 var lettersRevealed map[rune]bool
+var gameOver bool
+var errorMessage string
 
 func initializeHangman() {
 	// Initialisation du jeu
@@ -24,6 +26,8 @@ func initializeHangman() {
 	word, revealed = Hangmanclassic.FindWord(words)
 	attemptsLeft = Hangmanclassic.Maxtentative
 	lettersRevealed = make(map[rune]bool)
+	gameOver = false
+	errorMessage = ""
 }
 
 func renderTemplate(w http.ResponseWriter, data interface{}) {
@@ -41,15 +45,24 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		WordDisplay  string
 		AttemptsLeft int
+		GameOver     bool
+		ErrorMessage string
 	}{
 		WordDisplay:  wordDisplay,
 		AttemptsLeft: attemptsLeft,
+		GameOver:     gameOver,
+		ErrorMessage: errorMessage,
 	}
 	renderTemplate(w, data)
 }
 
 func Hangman(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	if gameOver {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
@@ -77,12 +90,20 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 
 	if !found {
 		attemptsLeft--
+		errorMessage = "La lettre n'est pas dans le mot !"
+	} else {
+		errorMessage = ""
 	}
 
 	if attemptsLeft <= 0 || Hangmanclassic.AllRevealed(revealed) {
-		initializeHangman() // Réinitialiser le jeu si toutes les lettres sont trouvées ou si les tentatives sont épuisées
+		gameOver = true
 	}
 
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func Restart(w http.ResponseWriter, r *http.Request) {
+	initializeHangman()
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -91,6 +112,7 @@ func main() {
 
 	http.HandleFunc("/", Home)
 	http.HandleFunc("/hangman", Hangman)
+	http.HandleFunc("/restart", Restart)
 
 	port := "8080"
 	fmt.Printf("Serveur démarré sur http://localhost:%s\n", port)

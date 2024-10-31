@@ -1,16 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Hangman Game</title>
+    <meta charset="UTF-8">
+    <title>Jeu du Pendu</title>
 </head>
 <body>
     <h1>Jeu du Pendu</h1>
-    <h2>{{.WordDisplay}}</h2>
-    <p>Tentatives restantes : {{.AttemptsLeft}}</p>
-    <form action="/hangman" method="POST">
-        <label for="letter">Entrez une lettre :</label>
-        <input type="text" name="letter" maxlength="1" required>
-        <button type="submit">Vérifier</button>
-    </form>
+
+    <p>Mot à deviner : {{ .WordDisplay }}</p>
+    <p>Nombre de tentatives restantes : {{ .AttemptsLeft }}</p>
+
+    {{ if .ErrorMessage }}
+        <p style="color: red;">{{ .ErrorMessage }}</p>
+    {{ end }}
+
+    {{ if .GameOver }}
+        <p>Le jeu est terminé !</p>
+        <form action="/restart" method="post">
+            <button type="submit">Relancer le jeu</button>
+        </form>
+    {{ else }}
+        <form action="/hangman" method="post">
+            <label for="letter">Devinez une lettre :</label>
+            <input type="text" id="letter" name="letter" maxlength="1" required>
+            <button type="submit">Vérifier</button>
+        </form>
+    {{ end }}
 </body>
 </html>
