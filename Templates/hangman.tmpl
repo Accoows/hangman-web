@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Jeu du Pendu</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>Jeu du Pendu</h1>
 
-    <p>Mot à deviner : {{ .WordDisplay }}</p>
+    <p class="word-display">{{ .WordDisplay }}</p>
+    <p></p>
     <p>Nombre de tentatives restantes : {{ .AttemptsLeft }}</p>
 
+    {{ if .GuessedLetters }}
+        <p class="guessed-letters">Lettres incorrectes: {{ .GuessedLetters }}</p>
+    {{ end }}
+
     {{ if .ErrorMessage }}
-        <p style="color: red;">{{ .ErrorMessage }}</p>
+        <p class="error">{{ .ErrorMessage }}</p>
     {{ end }}
 
     {{ if .GameOver }}
@@ -21,8 +27,7 @@
         </form>
     {{ else }}
         <form action="/hangman" method="post">
-            <label for="letter">Devinez une lettre :</label>
-            <input type="text" id="letter" name="letter" maxlength="1" required>
+            <input type="text" name="letter" maxlength="1" required>
             <button type="submit">Vérifier</button>
         </form>
     {{ end }}
