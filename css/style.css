@@ -62,7 +62,7 @@ button:hover {
 }
 
 .reset-button {
-    background-color: #555555; /* Couleur grise */
+    background-color: #555555;
     color: white;
     border: none;
     padding: 0.5vh 1vw;

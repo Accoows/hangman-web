@@ -26,7 +26,7 @@ func initializeHangman() {
 		return
 	}
 	word, revealed = Hangmanclassic.FindWord(words)
-	attemptsLeft = Hangmanclassic.Maxtentative
+	attemptsLeft = Hangmanclassic.Maxtentative //Nombre de tentatives maximum issue de hangman.go
 	lettersRevealed = make(map[rune]bool)
 	gameOver = false
 	errorMessage = ""
@@ -35,7 +35,7 @@ func initializeHangman() {
 }
 
 func renderTemplate(w http.ResponseWriter, data interface{}) {
-	t, err := template.ParseFiles("Templates/hangman.tmpl")
+	t, err := template.ParseFiles("Templates/hangman.tmpl") // Appel du template HTML
 	if err != nil {
 		http.Error(w, "Erreur interne du serveur", http.StatusInternalServerError)
 		return
@@ -58,23 +58,23 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		GameOver:       gameOver,
 		ErrorMessage:   errorMessage,
 		SuccessMessage: successMessage,
-		GuessedLetters: strings.Join(incorrectLetters, ", "),
+		GuessedLetters: strings.Join(incorrectLetters, ", "), //Gestion des lettres incorrectes avec la virgule
 	}
 	renderTemplate(w, data)
 }
 
 func Hangman(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
+	if r.Method != http.MethodPost { //Vérifie si la méthode est POST
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
-	if gameOver {
+	if gameOver { //Réinitialisation du jeu avec une nouvelle page
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
-	letter := r.FormValue("letter")
+	letter := r.FormValue("letter") //Requete de la lettre dans le input
 	if letter == "" || len(letter) != 1 || !unicode.IsLetter(rune(letter[0])) {
 		errorMessage = "Veuillez entrer une lettre valide !"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -91,7 +91,7 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 
 	found := false
 	for i, ltr := range word {
-		if ltr == revealedRune {
+		if ltr == revealedRune { //Vérifie si la lettre est dans le mot
 			revealed[i] = true
 			found = true
 		}
@@ -101,7 +101,7 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 		attemptsLeft--
 		incorrectLetters = append(incorrectLetters, string(revealedRune))
 		if attemptsLeft <= 0 {
-			for i := range revealed {
+			for i := range revealed { //Affiche toutes les lettres du mot quand on a perdu
 				revealed[i] = true
 			}
 			gameOver = true
@@ -114,7 +114,7 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 		errorMessage = ""
 	}
 
-	if Hangmanclassic.AllRevealed(revealed) {
+	if Hangmanclassic.AllRevealed(revealed) { //Vérifie si le mot est entièrement révélé
 		successMessage = "Vous avez gagné !"
 		gameOver = true
 	}
@@ -136,7 +136,7 @@ func main() {
 
 	port := "8080"
 	fmt.Printf("Serveur démarré sur http://localhost:%s\n", port)
-	err := http.ListenAndServe(":"+port, nil)
+	err := http.ListenAndServe(":"+port, nil) //Démarrage du serveur
 	if err != nil {
 		log.Fatalf("Échec du démarrage du serveur : %v", err)
 	}
