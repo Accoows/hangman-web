@@ -15,13 +15,13 @@
     {{ if .GuessedLetters }}
         <p class="guessed-letters">Lettres incorrectes: {{ .GuessedLetters }}</p>
     {{ end }}
-
+    
     {{ if .ErrorMessage }}
         <p class="error">{{ .ErrorMessage }}</p>
     {{ end }}
 
     {{ if .GameOver }}
-        <p>Le jeu est terminé !</p>
+        <p></p>
         <form action="/restart" method="post">
             <button type="submit">Relancer le jeu</button>
         </form>
@@ -29,6 +29,9 @@
         <form action="/hangman" method="post">
             <input type="text" name="letter" maxlength="1" required placeholder="Entrez une lettre" autofocus>
             <button type="submit">Vérifier</button>
+        </form>
+        <form action="/restart" method="post">
+            <button type="submit" class="reset-button">Réinitialiser</button>
         </form>
     {{ end }}
 </body>

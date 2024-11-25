@@ -111,6 +111,8 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if Hangmanclassic.AllRevealed(revealed) {
+		// errorMessage success dans le HTML
+		errorMessage = "Vous avez gagné !"
 		gameOver = true
 	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
