@@ -96,12 +96,21 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 	if !found {
 		attemptsLeft--
 		incorrectLetters = append(incorrectLetters, string(revealedRune))
+		if attemptsLeft <= 0 {
+			for i := range revealed {
+				revealed[i] = true
+			}
+			gameOver = true
+			errorMessage = "Vous avez perdu !"
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
 		errorMessage = "La lettre n'est pas dans le mot !"
 	} else {
 		errorMessage = ""
 	}
 
-	if attemptsLeft <= 0 || Hangmanclassic.AllRevealed(revealed) {
+	if Hangmanclassic.AllRevealed(revealed) {
 		gameOver = true
 	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)

@@ -27,7 +27,7 @@
         </form>
     {{ else }}
         <form action="/hangman" method="post">
-            <input type="text" name="letter" maxlength="1" required>
+            <input type="text" name="letter" maxlength="1" required placeholder="Entrez une lettre" autofocus>
             <button type="submit">Vérifier</button>
         </form>
     {{ end }}
