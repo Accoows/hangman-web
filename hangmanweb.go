@@ -16,6 +16,7 @@ var attemptsLeft int
 var lettersRevealed map[rune]bool
 var gameOver bool
 var errorMessage string
+var successMessage string
 var incorrectLetters []string
 
 func initializeHangman() {
@@ -29,6 +30,7 @@ func initializeHangman() {
 	lettersRevealed = make(map[rune]bool)
 	gameOver = false
 	errorMessage = ""
+	successMessage = ""
 	incorrectLetters = []string{}
 }
 
@@ -48,12 +50,14 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		AttemptsLeft   int
 		GameOver       bool
 		ErrorMessage   string
+		SuccessMessage string
 		GuessedLetters string
 	}{
 		WordDisplay:    wordDisplay,
 		AttemptsLeft:   attemptsLeft,
 		GameOver:       gameOver,
 		ErrorMessage:   errorMessage,
+		SuccessMessage: successMessage,
 		GuessedLetters: strings.Join(incorrectLetters, ", "),
 	}
 	renderTemplate(w, data)
@@ -111,8 +115,7 @@ func Hangman(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if Hangmanclassic.AllRevealed(revealed) {
-		// errorMessage success dans le HTML
-		errorMessage = "Vous avez gagné !"
+		successMessage = "Vous avez gagné !"
 		gameOver = true
 	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)

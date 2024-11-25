@@ -35,6 +35,12 @@ h1 {
     font-size: 1.3vw;
 }
 
+.success {
+    color: #009e0c;
+    font-weight: bold;
+    font-size: 1.3vw;
+}
+
 .guessed-letters {
     font-size: 1.2em;
     margin: 20px 0;
@@ -53,6 +59,25 @@ button {
 
 button:hover {
     background-color: #910000;
+}
+
+.reset-button {
+    background-color: #555555; /* Couleur grise */
+    color: white;
+    border: none;
+    padding: 0.5vh 1vw;
+    font-size: 1vw;
+    cursor: pointer;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: background-color 0.3s;
+}
+
+.reset-button:hover {
+    background-color: #444444;
 }
 
 input[type="text"] {
