@@ -60,9 +60,9 @@ Le serveur web est implémenté en Go avec les routes suivantes :
    cd hangman-web
    ```
 
-2. Assurez-vous que Go est installé sur votre système. Configurez le module :
+2. Renommez le fichier extrait :
    ```bash
-   go mod tidy
+   File: hangman-web-main -> hangman_web
    ```
 
 3. Lancez le serveur :
