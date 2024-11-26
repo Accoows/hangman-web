@@ -1,5 +1,7 @@
 package main
 
+// Github: https://github.com/Accoows/hangman-web
+
 import (
 	"fmt"
 	"hangman_web/Hangmanclassic"
