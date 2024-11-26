@@ -38,7 +38,7 @@
 ## Architecture
 ### 1. Modules et fichiers principaux :
 - **Hangman-Web** (Dossier principal) :
-  - `main.go` : Contient le code du serveur web et la logique principale du jeu.
+  - `hangmanweb.go` : Contient le code du serveur web et la logique principale du jeu.
   - `Templates/hangman.tmpl` : Modèle HTML pour l'interface utilisateur.
   - `css/style.css` : Feuille de style pour le design.
 - **Hangman-Classic (module)** :
@@ -67,7 +67,7 @@ Le serveur web est implémenté en Go avec les routes suivantes :
 
 3. Lancez le serveur :
    ```bash
-   go run main.go
+   go run ./hangmanweb.go
    ```
 
 4. Accédez au jeu via votre navigateur à l'adresse : `http://localhost:8080`.
